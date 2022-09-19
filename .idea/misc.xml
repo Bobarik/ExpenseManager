@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/drawable-v24/ic_plus.xml" value="0.237" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/account_recycler_view.xml" value="0.33125" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/activity_main.xml" value="0.16109422492401215" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/fragment_account_add.xml" value="0.3302083333333333" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/fragment_account_dialog.xml" value="0.3302083333333333" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/fragment_home_view.xml" value="0.19384057971014493" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/fragment_operation_details.xml" value="0.1765625" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/fragment_operation_details_edit.xml" value="0.19384057971014493" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/fragment_settings.xml" value="0.17708333333333334" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/operation_recycler_view.xml" value="0.2879999900124293" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/period_chips_filter.xml" value="0.33125" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/layout/transaction_period_filter_layout.xml" value="0.2793682132280355" />
+        <entry key="..\:/Prog/Kotlin/ExpenseManager/presentation/src/main/res/menu/top_menu.xml" value="0.262037037037037" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_12" default="true" project-jdk-name="12" project-jdk-type="JavaSDK" />
+</project>

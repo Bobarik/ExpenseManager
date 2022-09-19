@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">domain</string>
+    <string name="bills">Bills</string>
+    <string name="food">Food</string>
+    <string name="education">Education</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="housing">Housing</string>
+    <string name="health">Health</string>
+    <string name="travel">Travel</string>
+    <string name="transportation">Transportation</string>
+    <string name="shopping">Shopping</string>
+    <string name="salary">Salary</string>
+    <string name="investments">Investments</string>
+    <string name="other">Other</string>
+</resources>

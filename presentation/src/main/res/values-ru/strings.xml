@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Менеджер Расходов</string>
+    <string name="operation_date">%s</string>
+    <string name="operation_category">%s</string>
+    <string name="operation_name">%s</string>
+    <string name="operation_amount">%s</string>
+    <string name="date_format">dd/MM/yyyy</string>
+    <string name="missing_field">Одно из полей было не было заполнено.</string>
+    <string name="required_field">Заполните поле</string>
+    <string name="missing_category">Выберите категорию</string>
+    <string name="invalid_date">Неправильная дата</string>
+    <string name="operation_saved">Операция была сохранена</string>
+    <string name="change_saved">Изменения были успешно сохранены</string>
+
+    <string name="dark_theme">Темная тема</string>
+    <string name="language">Язык</string>
+    <string name="currency">Валюта</string>
+    <string name="save">Сохранить</string>
+    <string name="info">Дополнительно</string>
+    <string name="date">Дата</string>>
+    <string name="category">Категория</string>
+    <string name="amount">Сумма</string>
+    <string name="name">Название</string>
+    <string name="add_account">Добавить новый аккаунт</string>
+    <string name="save_account">Новый аккаунт был создан</string>
+</resources>

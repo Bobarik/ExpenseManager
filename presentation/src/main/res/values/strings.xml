@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ExpenseManager</string>
+    <string name="operation_date">%s</string>
+    <string name="operation_category">%s</string>
+    <string name="operation_name">%s</string>
+    <string name="operation_amount">%s</string>
+    <string name="date_format">dd/MM/yyyy</string>
+    <string name="missing_field">One of the fields wasn\'t filled properly.</string>
+    <string name="required_field">field required</string>
+    <string name="missing_category">Select a category</string>
+    <string name="invalid_date">invalid date</string>
+    <string name="operation_saved">Operation has been saved</string>
+    <string name="change_saved">Changes saved successfully</string>
+
+    <string name="dark_theme">Dark theme</string>
+    <string name="language">Language</string>
+    <string name="currency">Currency</string>
+    <string name="save">Save</string>
+    <string name="info">info</string>
+    <string name="date">Date</string>
+    <string name="category">Category</string>
+    <string name="amount">Amount</string>
+    <string name="name">Name</string>
+    <string name="add_account">Add New Account</string>
+    <string name="save_account">New Account was added</string>
+
+</resources>
