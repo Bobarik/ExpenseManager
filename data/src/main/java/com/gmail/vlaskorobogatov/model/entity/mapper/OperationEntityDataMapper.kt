@@ -5,6 +5,7 @@ import com.gmail.vlaskorobogatov.model.entity.OperationEntity
 
 fun toOperationEntity(operation: Operation): OperationEntity {
     return OperationEntity(
+        operation.operationId,
         operation.name,
         operation.accountName,
         operation.amount,
@@ -16,6 +17,7 @@ fun toOperationEntity(operation: Operation): OperationEntity {
 
 fun toOperation(operationEntity: OperationEntity): Operation {
     return Operation(
+        operationEntity.operationId,
         operationEntity.name,
         operationEntity.accountName,
         operationEntity.amount,

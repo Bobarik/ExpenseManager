@@ -19,13 +19,12 @@ import java.util.Date
     ]
 )
 data class OperationEntity(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "operation_id") var operationId: Int = 0,
     val name: String,
     @ColumnInfo(name = "account_name") val accountName: String,
     val amount: Double,
     val date: String,
     val info: String?,
     val category: OperationCategory
-) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "operation_id") var operationId: Int = 0
-}
+)

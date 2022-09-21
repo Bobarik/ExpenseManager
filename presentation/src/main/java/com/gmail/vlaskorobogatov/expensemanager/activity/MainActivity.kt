@@ -2,22 +2,16 @@ package com.gmail.vlaskorobogatov.expensemanager.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.gmail.vlaskorobogatov.expensemanager.R
 import com.gmail.vlaskorobogatov.expensemanager.databinding.ActivityMainBinding
-import com.gmail.vlaskorobogatov.expensemanager.fragment.HomeViewFragmentDirections
 import com.gmail.vlaskorobogatov.expensemanager.viewmodel.ActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,26 +54,5 @@ class MainActivity : AppCompatActivity() {
             startActivity(refresh)
             finish()
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = findNavController(R.id.fragment)
-        println(item.title)
-        return when (item.itemId) {
-            R.id.account_dialog -> {
-                println("going deep")
-                navController.navigate(HomeViewFragmentDirections.homeViewFragmentToAccountDialog())
-                true
-            }
-            else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.top_menu, menu)
-        lifecycleScope.launchWhenCreated {
-            menu.getItem(0).title = viewModel.preferences.getAccountName()
-        }
-        return true
     }
 }

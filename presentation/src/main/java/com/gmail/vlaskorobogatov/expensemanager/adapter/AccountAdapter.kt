@@ -11,9 +11,10 @@ import com.gmail.vlaskorobogatov.expensemanager.R
 import com.gmail.vlaskorobogatov.expensemanager.databinding.AccountRecyclerViewBinding
 import com.gmail.vlaskorobogatov.expensemanager.dialog.AccountDialogFragment
 import com.gmail.vlaskorobogatov.expensemanager.viewmodel.AccountListViewModel
+import com.gmail.vlaskorobogatov.expensemanager.viewmodel.HomeFragmentViewModel
 
 
-class AccountAdapter(private val dialogFragment: AccountDialogFragment, val viewModel: AccountListViewModel) :
+class AccountAdapter(private val dialogFragment: AccountDialogFragment, val viewModel: HomeFragmentViewModel) :
     RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
     private var accounts: List<Account>? = null
@@ -41,7 +42,7 @@ class AccountAdapter(private val dialogFragment: AccountDialogFragment, val view
         val account = accounts?.get(position)
         holder.bindItems(account!!)
         holder.itemView.setOnClickListener() {
-            viewModel.changeAccount(account)
+            viewModel.changeAccount(account.accountName)
             dialogFragment.dismiss()
         }
     }
