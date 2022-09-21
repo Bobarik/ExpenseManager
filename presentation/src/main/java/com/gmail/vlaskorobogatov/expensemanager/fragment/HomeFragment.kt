@@ -3,7 +3,6 @@ package com.gmail.vlaskorobogatov.expensemanager.fragment
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,11 +12,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gmail.vlaskorobogatov.expensemanager.R
 import com.gmail.vlaskorobogatov.expensemanager.adapter.OperationsAdapter
 import com.gmail.vlaskorobogatov.expensemanager.databinding.FragmentHomeViewBinding
 import com.gmail.vlaskorobogatov.expensemanager.viewmodel.HomeFragmentViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.Period
@@ -26,8 +28,9 @@ import java.time.Period
 class HomeFragment : Fragment() {
 
     private val viewModel: HomeFragmentViewModel by viewModels()
-
+    lateinit var adapter: OperationsAdapter
     private lateinit var binding: FragmentHomeViewBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,9 +44,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = OperationsAdapter(this)
+        adapter = OperationsAdapter(this)
         subscribeUi(adapter)
         binding.recyclerView.adapter = adapter
+        swipeToDelete(adapter)
 
         val llm = LinearLayoutManager(requireContext())
         llm.orientation = LinearLayoutManager.VERTICAL
@@ -56,9 +60,7 @@ class HomeFragment : Fragment() {
             view.findNavController().navigate(R.id.home_view_fragment_to_add_operation_fragment)
         }
 
-        val menuHost: MenuHost = requireActivity()
-
-        menuHost.addMenuProvider(object : MenuProvider {
+        requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.top_menu, menu)
                 lifecycleScope.launch {
@@ -81,14 +83,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: OperationsAdapter) {
-        println("REDOING UI")
         viewModel.account.observe(viewLifecycleOwner) { account ->
-            println("REDOIN ACCOUNT")
-            viewModel.period.observe(viewLifecycleOwner) { period ->
-                println("REDOIN PERIOD")
+            viewModel.period.observe(viewLifecycleOwner) {
                 viewModel.getFilteredOps(account).observe(viewLifecycleOwner) { operationList ->
                     setPeriodFilter()
-                    setAccountFilter()
                     val (incomeOps, expenseOps) =
                         operationList.partition { it.amount >= 0.0 }
 
@@ -99,10 +97,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun setAccountFilter() = with(binding) {
-
     }
 
     private fun setPeriodFilter() = with(binding) {
@@ -127,6 +121,39 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun swipeToDelete(adapter: OperationsAdapter) {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val operation = adapter.currentList[position]
+                viewModel.deleteOperation(operation)
+
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.transaction_deleted),
+                    Snackbar.LENGTH_SHORT
+                ).apply {
+                    setAction(getString(R.string.undo)) {
+                        viewModel.addOperation(operation)
+                    }
+                }.show()
+
+            }
+        }
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
+    }
+
     private fun checkTheme() {
         if (viewModel.readTheme()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -134,6 +161,4 @@ class HomeFragment : Fragment() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
-
-
 }

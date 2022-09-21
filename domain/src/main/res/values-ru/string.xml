@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bills">Счета</string>
+    <string name="food">Еда</string>
+    <string name="education">Образование</string>
+    <string name="entertainment">Развлечения</string>
+    <string name="housing">ЖКХ</string>
+    <string name="health">Здоровье</string>
+    <string name="travel">Поездки</string>
+    <string name="transportation">Транспорт</string>
+    <string name="shopping">Покупки</string>
+    <string name="other">Прочее</string>
+    <string name="salary">Зарплата</string>
+    <string name="investments">Инвестиции</string>
+</resources>

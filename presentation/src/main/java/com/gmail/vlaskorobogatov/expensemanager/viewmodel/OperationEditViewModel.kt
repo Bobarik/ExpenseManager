@@ -3,7 +3,6 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.vlaskorobogatov.domain.Operation
-import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
 import com.gmail.vlaskorobogatov.model.repository.ExpensePreferenceImpl
 import dagger.hilt.android.lifecycle.HiltViewModel

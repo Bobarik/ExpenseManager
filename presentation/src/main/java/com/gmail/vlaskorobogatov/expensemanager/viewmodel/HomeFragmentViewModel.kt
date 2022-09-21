@@ -6,6 +6,7 @@ import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
 import com.gmail.vlaskorobogatov.model.repository.ExpensePreferenceImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -20,8 +21,8 @@ class HomeFragmentViewModel @Inject internal constructor(
     val preferences: ExpensePreferenceImpl
 ) : ViewModel() {
     val account: MutableLiveData<String> = MutableLiveData(preferences.getAccountName())
-
     val period = MutableLiveData(Period.ofYears(5))
+
 
     fun readTheme(): Boolean = preferences.readTheme()
 
@@ -29,14 +30,12 @@ class HomeFragmentViewModel @Inject internal constructor(
 
     fun changeAccount(account: String) {
         this.account.value = account
-        println(preferences.getAccountName())
     }
 
     init {
-        viewModelScope.launch {
-            account.observeForever { newAccount ->
-                preferences.setAccountName(newAccount)
-            }
+        account.observeForever { newAccount ->
+            preferences.setAccountName(newAccount)
+            println(preferences.getAccountName())
         }
     }
 
@@ -54,4 +53,14 @@ class HomeFragmentViewModel @Inject internal constructor(
                 formattedDate in currentDate.minus(period.value)..currentDate
             }
         }.asLiveData()
+
+    fun deleteOperation(operation: Operation) {
+        viewModelScope.launch(Dispatchers.IO) { operationsRepository.delete(listOf(operation)) }
+    }
+
+    fun addOperation(operation: Operation) {
+        viewModelScope.launch(Dispatchers.IO) {
+            operationsRepository.insert(listOf(operation))
+        }
+    }
 }

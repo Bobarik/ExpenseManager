@@ -27,42 +27,42 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 tools:checked="true"
-                android:text="all operations" />
+                android:text="@string/all_operations" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_ten_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="10 days" />
+                android:text="@string/ten_days" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_thirty_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="30 days"/>
+                android:text="@string/thirty_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_sixty_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="60 days"/>
+                android:text="@string/sixty_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_ninety_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="90 days"/>
+                android:text="@string/ninety_days"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_six_months"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:text="Six months"/>
+                android:text="@string/six_months"/>
 
         </com.google.android.material.chip.ChipGroup>
 

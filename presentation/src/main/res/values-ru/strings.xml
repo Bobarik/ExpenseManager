@@ -22,6 +22,25 @@
     <string name="category">Категория</string>
     <string name="amount">Сумма</string>
     <string name="name">Название</string>
-    <string name="add_account">Добавить новый аккаунт</string>
+    <string name="add_new_account">Добавить новый аккаунт</string>
     <string name="save_account">Новый аккаунт был создан</string>
+    <string name="currency_formatter">%.2f</string>
+    <string name="transaction_deleted">Операция была удалена</string>
+    <string name="undo">Восстановить</string>
+    <string name="Settings">Настройки</string>
+
+
+    <string name="home">Затраты</string>
+    <string name="details">Детали</string>
+    <string name="add_operation">Добавить операцию</string>
+    <string name="add_account">Добавить аккаунт</string>
+    <string name="select_account">Выбрать аккаунт</string>
+
+
+    <string name="all_operations">все операции</string>
+    <string name="ten_days">10 дней</string>
+    <string name="thirty_days">30 дней</string>
+    <string name="sixty_days">60 дней</string>
+    <string name="ninety_days">90 дней</string>
+    <string name="six_months">пол года</string>
 </resources>

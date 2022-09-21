@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/account_dialog"
-        android:title="Main Account"
         app:showAsAction="always"/>
     <item
         android:id="@id/settings_fragment"
-        android:title="Settings" />
+        android:title="@string/Settings" />
 </menu>

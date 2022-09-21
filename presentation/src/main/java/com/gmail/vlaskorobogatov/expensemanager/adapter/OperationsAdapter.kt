@@ -28,7 +28,7 @@ class OperationsAdapter(val fragment: HomeFragment) :
 
             date.text = operation.date
             category.text = context.getString(operation.category.description)
-            amount.text = operation.amount.toString()
+            amount.text = context.getString(R.string.currency_formatter).format(operation.amount)
             name.text = operation.name
         }
     }

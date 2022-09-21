@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="bills">Bills</string>
-    <string name="food">Food </string>
+    <string name="food">Food</string>
     <string name="education">Education</string>
     <string name="entertainment">Entertainment</string>
     <string name="housing">Housing</string>
