@@ -7,8 +7,9 @@ data class Operation(
     val name: String,
     val accountName: String,
     var amount: Double,
+    val isExpense: Boolean,
     val date: String,
     val info: String?,
     val category: OperationCategory
-): Serializable {
+) : Serializable {
 }

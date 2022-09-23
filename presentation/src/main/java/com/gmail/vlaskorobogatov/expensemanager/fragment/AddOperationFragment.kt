@@ -52,6 +52,14 @@ class AddOperationFragment : Fragment() {
                 )
             )
 
+            operationTypeEdit.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listOf(getString(R.string.expense), getString(R.string.income))
+                )
+            )
+
             operationDateEdit.apply {
                 isClickable = true
                 isFocusable = true
@@ -93,6 +101,14 @@ class AddOperationFragment : Fragment() {
     private fun isFieldMissing(): Boolean {
 
         when {
+            binding.operationTypeEdit.text.isNullOrEmpty() -> {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.missing_type),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             binding.operationAmountEdit.text.isNullOrEmpty() -> {
                 Toast.makeText(
                     requireContext(),
@@ -161,12 +177,14 @@ class AddOperationFragment : Fragment() {
             getString(string.other) -> OperationCategory.Other
             else -> OperationCategory.Other
         }
+        val isExpense = (it.operationTypeEdit.text.toString() == "Expense")
         val info = it.operationInfoEdit.text.toString()
 
         return Operation(
             name = name,
             amount = amount,
             category = category,
+            isExpense = isExpense,
             date = date,
             info = info,
             accountName = viewModel.account

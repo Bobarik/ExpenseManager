@@ -1,6 +1,7 @@
 package com.gmail.vlaskorobogatov.expensemanager.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -28,7 +29,14 @@ class OperationsAdapter(val fragment: HomeFragment) :
 
             date.text = operation.date
             category.text = context.getString(operation.category.description)
-            amount.text = context.getString(R.string.currency_formatter).format(operation.amount)
+            if (operation.isExpense) {
+                amount.setTextColor(Color.RED)
+                "-${context.getString(R.string.currency_formatter).format(operation.amount)}".also { amount.text = it }
+            } else {
+                amount.setTextColor(Color.parseColor("#00AA00"))
+                "+${context.getString(R.string.currency_formatter).format(operation.amount)}".also { amount.text = it }
+            }
+
             name.text = operation.name
         }
     }
@@ -53,7 +61,6 @@ class OperationsAdapter(val fragment: HomeFragment) :
         }
     }
 }
-
 
 private class OperationDiffCallback : DiffUtil.ItemCallback<Operation>() {
 

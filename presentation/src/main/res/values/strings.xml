@@ -9,6 +9,7 @@
     <string name="missing_field">One of the fields wasn\'t filled properly.</string>
     <string name="required_field">field required</string>
     <string name="missing_category">Select a category</string>
+    <string name="missing_type">Select type of operation</string>
     <string name="invalid_date">invalid date</string>
     <string name="operation_saved">Operation has been saved</string>
     <string name="change_saved">Changes saved successfully</string>
@@ -30,6 +31,7 @@
     <string name="Settings">Settings</string>
 
     <string name="home">Expenses</string>
+    <string name="type">Type</string>
     <string name="details">Details</string>
     <string name="add_operation">Add operation</string>
     <string name="add_account">Add account</string>
@@ -42,4 +44,6 @@
     <string name="ninety_days">90 days</string>
     <string name="six_months">six months</string>
 
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
 </resources>

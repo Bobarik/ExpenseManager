@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -85,10 +84,20 @@ class HomeFragment : Fragment() {
 
     private fun subscribeUi(adapter: OperationsAdapter) {
         viewModel.account.observe(viewLifecycleOwner) { account ->
-            println("Just observing")
             viewModel.period.observe(viewLifecycleOwner) {
                 viewModel.getFilteredOps(account).observe(viewLifecycleOwner) { operationList ->
                     setPeriodFilter()
+
+                    val (totalExpense, totalIncome) =
+                        operationList.partition { it.isExpense }
+
+                    val income: Double = totalIncome.sumOf { it.amount }
+                    val expense: Double = totalExpense.sumOf { it.amount }
+
+                    binding.itemExpenseCardView.totalExpense.text = getString(R.string.currency_formatter).format(expense)
+                    binding.itemIncomeCardView.totalIncome.text = getString(R.string.currency_formatter).format(income)
+                    val balance = income - expense
+
                     adapter.submitList(operationList.sortedBy { x -> x.date })
                 }
             }

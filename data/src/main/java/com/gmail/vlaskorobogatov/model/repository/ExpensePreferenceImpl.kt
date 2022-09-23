@@ -9,8 +9,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ExpensePreferenceImpl @Inject constructor(@ApplicationContext context: Context): ExpensePreference{
-    private val preference: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+class ExpensePreferenceImpl @Inject constructor(@ApplicationContext context: Context) :
+    ExpensePreference {
+    private val preference: SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun readTheme(): Boolean {
         return preference.getBoolean("dark_theme", false)

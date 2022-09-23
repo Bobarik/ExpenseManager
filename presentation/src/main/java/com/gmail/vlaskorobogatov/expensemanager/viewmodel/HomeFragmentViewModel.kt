@@ -16,13 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeFragmentViewModel @Inject internal constructor(
-    private val accountRepository: AccountRepository,
     private val operationsRepository: OperationRepository,
-    val preferences: ExpensePreferenceImpl
+    val preferences: ExpensePreferenceImpl,
+    accountRepository: AccountRepository
 ) : ViewModel() {
-    val account: MutableLiveData<String> = MutableLiveData(preferences.getAccountName())
+    val account = MutableLiveData(preferences.getAccountName())
     val period = MutableLiveData(Period.ofYears(5))
-
 
     fun readTheme(): Boolean = preferences.readTheme()
 
@@ -34,9 +33,7 @@ class HomeFragmentViewModel @Inject internal constructor(
 
     init {
         account.observeForever { newAccount ->
-            println("OBSERVING FOREEEVER")
             preferences.setAccountName(newAccount)
-            println(preferences.getAccountName())
         }
     }
 

@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.gmail.vlaskorobogatov.domain.OperationCategory
-import java.util.Date
 
 @Entity(
     tableName = "operations",
@@ -24,6 +23,7 @@ data class OperationEntity(
     val name: String,
     @ColumnInfo(name = "account_name") val accountName: String,
     val amount: Double,
+    @ColumnInfo(name = "is_expense") val isExpense: Boolean,
     val date: String,
     val info: String?,
     val category: OperationCategory

@@ -9,6 +9,7 @@
     <string name="missing_field">Одно из полей было не было заполнено.</string>
     <string name="required_field">Заполните поле</string>
     <string name="missing_category">Выберите категорию</string>
+    <string name="missing_type">Выберите тип операции</string>
     <string name="invalid_date">Неправильная дата</string>
     <string name="operation_saved">Операция была сохранена</string>
     <string name="change_saved">Изменения были успешно сохранены</string>
@@ -31,6 +32,7 @@
 
 
     <string name="home">Затраты</string>
+    <string name="type">Тип операции</string>
     <string name="details">Детали</string>
     <string name="add_operation">Добавить операцию</string>
     <string name="add_account">Добавить аккаунт</string>
@@ -43,4 +45,7 @@
     <string name="sixty_days">60 дней</string>
     <string name="ninety_days">90 дней</string>
     <string name="six_months">пол года</string>
+
+    <string name="expense">Расход</string>
+    <string name="income">Доход</string>
 </resources>

@@ -16,15 +16,16 @@ import com.gmail.vlaskorobogatov.expensemanager.databinding.FragmentOperationDet
 import com.gmail.vlaskorobogatov.expensemanager.viewmodel.OperationEditViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Double
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class OperationDetailFragment : Fragment() {
 
     private val viewModel: OperationEditViewModel by viewModels()
     private lateinit var binding: FragmentOperationDetailsEditBinding
+    private lateinit var operation: Operation
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +42,7 @@ class OperationDetailFragment : Fragment() {
 
     private fun setUpView() {
         with(binding) {
-            val operation: Operation = arguments?.get("operation") as Operation
+            operation = arguments?.get("operation") as Operation
             operationAmountEdit.setText(operation.amount.toString())
             operationCategoryEdit.setText(getString(operation.category.description))
             operationNameEdit.setText(operation.name)
@@ -55,6 +56,14 @@ class OperationDetailFragment : Fragment() {
                     OperationCategory.CATEGORIES.map { x ->
                         getString(x.description)
                     }
+                )
+            )
+
+            operationTypeEdit.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listOf(getString(R.string.expense), getString(R.string.income))
                 )
             )
 
@@ -105,7 +114,7 @@ class OperationDetailFragment : Fragment() {
 
     private fun toOperation(): Operation = binding.let {
         val name = it.operationNameEdit.text.toString()
-        val amount = Double.parseDouble(it.operationAmountEdit.text.toString())
+        val amount = it.operationAmountEdit.text.toString().toDouble()
         val date = it.operationDateEdit.text.toString()
         val category = when (it.operationCategoryEdit.text.toString()) {
             getString(com.gmail.vlaskorobogatov.domain.R.string.bills) -> OperationCategory.Bills
@@ -122,12 +131,15 @@ class OperationDetailFragment : Fragment() {
             getString(com.gmail.vlaskorobogatov.domain.R.string.other) -> OperationCategory.Other
             else -> OperationCategory.Other
         }
+        val isExpense = (it.operationTypeEdit.text.toString() == "Expense")
         val info = it.operationInfoEdit.text.toString()
 
         return Operation(
+            operationId = operation.operationId,
             name = name,
             amount = amount,
             category = category,
+            isExpense = isExpense,
             date = date,
             info = info,
             accountName = viewModel.account

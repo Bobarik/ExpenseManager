@@ -9,6 +9,7 @@ fun toOperationEntity(operation: Operation): OperationEntity {
         operation.name,
         operation.accountName,
         operation.amount,
+        operation.isExpense,
         operation.date,
         operation.info,
         operation.category
@@ -21,6 +22,7 @@ fun toOperation(operationEntity: OperationEntity): Operation {
         operationEntity.name,
         operationEntity.accountName,
         operationEntity.amount,
+        operationEntity.isExpense,
         operationEntity.date,
         operationEntity.info,
         operationEntity.category
