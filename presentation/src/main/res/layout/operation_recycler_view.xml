@@ -5,46 +5,41 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
+    <TextView
+        android:id="@+id/operation_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="NAME IS VERY BIG"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="spread" />
 
     <TextView
         android:id="@+id/operation_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/operation_date"
+        android:text="dd/mm/yyyy"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="25" />
+        app:layout_constraintTop_toBottomOf="@id/operation_name"
+        app:layout_constraintWidth_default="spread" />
 
     <TextView
         android:id="@+id/operation_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/operation_category"
+        android:text="Entertainment"
+        android:layout_marginStart="20dp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/operation_name"
         app:layout_constraintStart_toEndOf="@id/operation_date"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/operation_date"
         app:layout_constraintWidth_default="spread"
         app:layout_constraintWidth_percent="15" />
-
-    <TextView
-        android:id="@+id/operation_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="@string/operation_name"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/operation_amount"
-        app:layout_constraintStart_toEndOf="@id/operation_category"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="30" />
 
     <TextView
         android:id="@+id/operation_amount"
@@ -52,12 +47,10 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:minWidth="70dp"
-        android:text="@string/operation_amount"
-        android:textAlignment="gravity"
-        android:textSize="20sp"
+        android:text="0"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="30" />
+        app:layout_constraintWidth_default="spread" />
 </androidx.constraintlayout.widget.ConstraintLayout>
