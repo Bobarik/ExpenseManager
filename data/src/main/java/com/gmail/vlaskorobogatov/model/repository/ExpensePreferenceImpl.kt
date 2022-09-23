@@ -30,11 +30,11 @@ class ExpensePreferenceImpl @Inject constructor(@ApplicationContext context: Con
         preference.edit().putString("locale", value).apply()
     }
 
-    fun getAccountName(): String {
+    override fun getAccountName(): String {
         return preference.getString("account", "Main")!!
     }
 
-    fun setAccountName(value: String) {
+    override fun setAccountName(value: String) {
         preference.edit().putString("account", value).apply()
     }
 }

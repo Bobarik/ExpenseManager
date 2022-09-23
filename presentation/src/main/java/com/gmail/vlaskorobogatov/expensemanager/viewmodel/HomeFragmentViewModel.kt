@@ -3,8 +3,8 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 import androidx.lifecycle.*
 import com.gmail.vlaskorobogatov.domain.Operation
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
+import com.gmail.vlaskorobogatov.domain.repostory.ExpensePreference
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
-import com.gmail.vlaskorobogatov.model.repository.ExpensePreferenceImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeFragmentViewModel @Inject internal constructor(
     private val operationsRepository: OperationRepository,
-    val preferences: ExpensePreferenceImpl,
+    val preferences: ExpensePreference,
     accountRepository: AccountRepository
 ) : ViewModel() {
     val account = MutableLiveData(preferences.getAccountName())

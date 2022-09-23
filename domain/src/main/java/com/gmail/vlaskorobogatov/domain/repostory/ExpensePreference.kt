@@ -8,4 +8,8 @@ interface ExpensePreference {
     fun readLocale(): String
 
     fun writeLocale(value: String)
+
+    fun getAccountName(): String
+
+    fun setAccountName(value: String)
 }

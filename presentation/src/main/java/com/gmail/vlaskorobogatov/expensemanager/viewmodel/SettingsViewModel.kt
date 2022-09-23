@@ -3,12 +3,11 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 import androidx.lifecycle.*
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import com.gmail.vlaskorobogatov.domain.repostory.CurrencyRepository
+import com.gmail.vlaskorobogatov.domain.repostory.ExpensePreference
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
-import com.gmail.vlaskorobogatov.model.repository.ExpensePreferenceImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject internal constructor(
-    private val preferences: ExpensePreferenceImpl,
+    private val preferences: ExpensePreference,
     private val accountRepository: AccountRepository,
     private val currencyRepository: CurrencyRepository,
     private val operationRepository: OperationRepository,
