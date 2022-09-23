@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,7 @@ import java.time.Period
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeFragmentViewModel by viewModels()
+    private val viewModel: HomeFragmentViewModel by activityViewModels()
     lateinit var adapter: OperationsAdapter
     private lateinit var binding: FragmentHomeViewBinding
 
@@ -84,16 +85,11 @@ class HomeFragment : Fragment() {
 
     private fun subscribeUi(adapter: OperationsAdapter) {
         viewModel.account.observe(viewLifecycleOwner) { account ->
+            println("Just observing")
             viewModel.period.observe(viewLifecycleOwner) {
                 viewModel.getFilteredOps(account).observe(viewLifecycleOwner) { operationList ->
                     setPeriodFilter()
-                    val (incomeOps, expenseOps) =
-                        operationList.partition { it.amount >= 0.0 }
-
-                    val income = incomeOps.sumOf { it.amount }
-                    val expense = expenseOps.sumOf { it.amount }
-                    val balance = income - expense
-                    adapter.submitList(operationList)
+                    adapter.submitList(operationList.sortedBy { x -> x.date })
                 }
             }
         }

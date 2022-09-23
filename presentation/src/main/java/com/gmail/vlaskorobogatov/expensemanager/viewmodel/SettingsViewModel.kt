@@ -1,5 +1,6 @@
 package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
@@ -22,7 +23,7 @@ class SettingsViewModel @Inject internal constructor(
     private val currencyRepository: CurrencyRepository,
     private val operationRepository: OperationRepository,
 ) : ViewModel() {
-    private var currentAccount = MutableStateFlow("Main")
+    private var currentAccount = MutableLiveData(preferences.getAccountName())
 
     fun readTheme(): Boolean {
         return preferences.readTheme()
@@ -41,7 +42,7 @@ class SettingsViewModel @Inject internal constructor(
     }
 
     fun readCurrency(): Flow<String> {
-        return accountRepository.getAccount(currentAccount.value).map { x -> x.currencyId }
+        return accountRepository.getAccount(currentAccount.value!!).map { x -> x.currencyId }
     }
 
     fun getCurrencies(): Flow<List<String>> {
@@ -54,9 +55,9 @@ class SettingsViewModel @Inject internal constructor(
 
     suspend fun changeCurrency(value: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val account = accountRepository.getAccount(currentAccount.value).first()
+            val account = accountRepository.getAccount(currentAccount.value!!).first()
             val operations =
-                operationRepository.getOperationsByAccount(currentAccount.value).first()
+                operationRepository.getOperationsByAccount(currentAccount.value!!).first()
             val rateFrom =
                 currencyRepository.getCurrencyById(account.currencyId).first().rateToDollar
             val rateTo = currencyRepository.getCurrencyById(value).first().rateToDollar

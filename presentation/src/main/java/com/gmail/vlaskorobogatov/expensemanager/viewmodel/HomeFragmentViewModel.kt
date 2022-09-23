@@ -34,6 +34,7 @@ class HomeFragmentViewModel @Inject internal constructor(
 
     init {
         account.observeForever { newAccount ->
+            println("OBSERVING FOREEEVER")
             preferences.setAccountName(newAccount)
             println(preferences.getAccountName())
         }

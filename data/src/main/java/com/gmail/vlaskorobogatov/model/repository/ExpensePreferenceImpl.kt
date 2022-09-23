@@ -21,7 +21,7 @@ class ExpensePreferenceImpl @Inject constructor(@ApplicationContext context: Con
     }
 
     override fun readLocale(): String {
-        return preference.getString("locale", "RU")!!
+        return preference.getString("locale", "English")!!
     }
 
     override fun writeLocale(value: String) {
