@@ -1,8 +1,6 @@
 package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import com.gmail.vlaskorobogatov.domain.repostory.CurrencyRepository
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
@@ -45,12 +43,12 @@ class SettingsViewModel @Inject internal constructor(
         return accountRepository.getAccount(currentAccount.value!!).map { x -> x.currencyId }
     }
 
-    fun getCurrencies(): Flow<List<String>> {
+    fun getCurrencies(): LiveData<List<String>> {
         viewModelScope.launch(Dispatchers.IO) {
             currencyRepository.updateCurrencies()
         }
 
-        return currencyRepository.getCurrencies().map { x -> x.map { y -> y.currencyId } }
+        return currencyRepository.getCurrencies().map { x -> x.map { y -> y.currencyId } }.asLiveData()
     }
 
     suspend fun changeCurrency(value: String) {

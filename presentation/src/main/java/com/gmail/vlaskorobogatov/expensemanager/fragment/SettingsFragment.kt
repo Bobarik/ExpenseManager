@@ -45,25 +45,26 @@ class SettingsFragment : Fragment() {
 
     private fun readyView() {
         with(binding) {
-            lifecycleScope.launchWhenStarted {
-                val x = viewModel.getCurrencies().first()
-                operationCurrrencyEdit.setText(viewModel.readCurrency().first())
-                operationCurrrencyEdit.setAdapter(
-                    ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        x
+            viewModel.getCurrencies().observe(viewLifecycleOwner) { currencies ->
+                lifecycleScope.launchWhenStarted {
+                    operationCurrrencyEdit.setText(viewModel.readCurrency().first())
+                    operationCurrrencyEdit.setAdapter(
+                        ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_dropdown_item,
+                            currencies
+                        )
                     )
-                )
-                appLocaleEdit.setText(viewModel.readLocale())
-                appLocaleEdit.setAdapter(
-                    ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        listOf("Russian", "English")
-                    )
-                )
+                }
             }
+            appLocaleEdit.setText(viewModel.readLocale())
+            appLocaleEdit.setAdapter(
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listOf("Russian", "English")
+                )
+            )
         }
     }
 
