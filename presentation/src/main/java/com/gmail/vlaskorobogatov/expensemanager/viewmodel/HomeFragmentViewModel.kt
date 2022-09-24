@@ -5,9 +5,10 @@ import com.gmail.vlaskorobogatov.domain.Operation
 import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountNameUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountsUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.SetAccountUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.operation.DeleteOperationUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.operation.GetOperationsUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.operation.InsertOperationUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
-import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
-import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -19,11 +20,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeFragmentViewModel @Inject internal constructor(
-    private val operationsRepository: OperationRepository,
+    val getOperationsUseCase: GetOperationsUseCase,
+    val insertOperationUseCase: InsertOperationUseCase,
+    val deleteOperationUseCase: DeleteOperationUseCase,
     val getThemeUseCase: GetThemeUseCase,
     val setAccountUseCase: SetAccountUseCase,
     getAccountNameUseCase: GetAccountNameUseCase,
-    getAccountsUseCase: GetAccountsUseCase
+    getAccountsUseCase: GetAccountsUseCase,
 ) : ViewModel() {
     val account = MutableLiveData(getAccountNameUseCase(Unit).getOrThrow())
     val period = MutableLiveData(Period.ofYears(5))
@@ -45,7 +48,7 @@ class HomeFragmentViewModel @Inject internal constructor(
     fun getAccountName() = account.value
 
     fun getFilteredOps(account: String): LiveData<List<Operation>> =
-        operationsRepository.getOperations().map { list ->
+        getOperationsUseCase(Unit).getOrThrow().map { list ->
             list.filter { operation ->
                 operation.accountName == account
             }.filter { operation ->
@@ -58,12 +61,14 @@ class HomeFragmentViewModel @Inject internal constructor(
         }.asLiveData()
 
     fun deleteOperation(operation: Operation) {
-        viewModelScope.launch(Dispatchers.IO) { operationsRepository.delete(listOf(operation)) }
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteOperationUseCase(listOf(operation))
+        }
     }
 
     fun addOperation(operation: Operation) {
         viewModelScope.launch(Dispatchers.IO) {
-            operationsRepository.insert(listOf(operation))
+            insertOperationUseCase(operation)
         }
     }
 }

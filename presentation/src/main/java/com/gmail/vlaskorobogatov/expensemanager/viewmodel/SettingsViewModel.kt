@@ -9,8 +9,11 @@ import com.gmail.vlaskorobogatov.domain.interactor.settings.SetThemeUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountNameUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.UpdateAccountUseCase
-import com.gmail.vlaskorobogatov.domain.repostory.CurrencyRepository
-import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
+import com.gmail.vlaskorobogatov.domain.interactor.currency.GetCurrenciesUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.currency.GetCurrencyUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.currency.UpdateCurrenciesUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.operation.GetOperationsByAccountUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.operation.UpdateOperationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -19,8 +22,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject internal constructor(
-    private val currencyRepository: CurrencyRepository,
-    private val operationRepository: OperationRepository,
     private val setLocaleUseCase: SetLocaleUseCase,
     private val getLocaleUseCase: GetLocaleUseCase,
     private val setThemeUseCase: SetThemeUseCase,
@@ -29,6 +30,11 @@ class SettingsViewModel @Inject internal constructor(
     private val getAccountCurrencyUseCase: GetAccountCurrencyUseCase,
     private val updateAccountUseCase: UpdateAccountUseCase,
     getAccountNameUseCase: GetAccountNameUseCase,
+    private val getCurrencyUseCase: GetCurrencyUseCase,
+    private val getCurrenciesUseCase: GetCurrenciesUseCase,
+    private val updateCurrenciesUseCase: UpdateCurrenciesUseCase,
+    private val getOperationsByAccountUseCase: GetOperationsByAccountUseCase,
+    private val updateOperationUseCase: UpdateOperationUseCase
 ) : ViewModel() {
     private var currentAccount = MutableLiveData(getAccountNameUseCase(Unit).getOrThrow())
 
@@ -54,10 +60,10 @@ class SettingsViewModel @Inject internal constructor(
 
     fun getCurrencies(): LiveData<List<String>> {
         viewModelScope.launch(Dispatchers.IO) {
-            currencyRepository.updateCurrencies()
+            updateCurrenciesUseCase(Unit)
         }
 
-        return currencyRepository.getCurrencies().map { x -> x.map { y -> y.currencyId } }
+        return getCurrenciesUseCase(Unit).getOrThrow().map { x -> x.map { y -> y.currencyId } }
             .asLiveData()
     }
 
@@ -65,16 +71,16 @@ class SettingsViewModel @Inject internal constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val account = getAccountUseCase(currentAccount.value!!).getOrThrow().first()
             val operations =
-                operationRepository.getOperationsByAccount(currentAccount.value!!).first()
+                getOperationsByAccountUseCase(currentAccount.value!!).getOrThrow().first()
             val rateFrom =
-                currencyRepository.getCurrencyById(account.currencyId).first().rateToDollar
-            val rateTo = currencyRepository.getCurrencyById(value).first().rateToDollar
+                getCurrencyUseCase(account.currencyId).getOrThrow().first().rateToDollar
+            val rateTo = getCurrencyUseCase(account.currencyId).getOrThrow().first().rateToDollar
             for (op in operations) {
                 op.amount = op.amount / rateFrom * rateTo
             }
 
             account.currencyId = value
-            operationRepository.update(operations)
+            updateOperationUseCase(operations)
             updateAccountUseCase(account)
         }
     }

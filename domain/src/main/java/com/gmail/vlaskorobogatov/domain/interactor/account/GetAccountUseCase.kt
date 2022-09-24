@@ -8,8 +8,7 @@ import javax.inject.Inject
 
 class GetAccountUseCase @Inject constructor(
     private val accountRepository: AccountRepository
-) :
-    UseCase<String, Flow<Account>>() {
+) : UseCase<String, Flow<Account>>() {
 
     override fun execute(parameters: String): Flow<Account> {
         return accountRepository.getAccount(parameters)

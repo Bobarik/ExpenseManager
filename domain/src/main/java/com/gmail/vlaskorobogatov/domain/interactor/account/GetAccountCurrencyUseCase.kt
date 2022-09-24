@@ -8,8 +8,7 @@ import javax.inject.Inject
 
 class GetAccountCurrencyUseCase @Inject constructor(
     private val accountRepository: AccountRepository
-) :
-    UseCase<String, Flow<String>>() {
+) : UseCase<String, Flow<String>>() {
 
     override fun execute(parameters: String): Flow<String> {
         return accountRepository.getAccount(parameters).map { x -> x.currencyId }

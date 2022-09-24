@@ -7,8 +7,7 @@ import javax.inject.Inject
 
 class InsertAccountUseCase @Inject constructor(
     private val accountRepository: AccountRepository
-) :
-    SuspendUseCase<Account, Unit>() {
+) : SuspendUseCase<Account, Unit>() {
 
     override suspend fun execute(parameters: Account) {
         return accountRepository.insertAccount(listOf(parameters))
