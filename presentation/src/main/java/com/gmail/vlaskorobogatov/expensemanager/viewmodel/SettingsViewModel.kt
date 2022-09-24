@@ -72,9 +72,8 @@ class SettingsViewModel @Inject internal constructor(
             val account = getAccountUseCase(currentAccount.value!!).getOrThrow().first()
             val operations =
                 getOperationsByAccountUseCase(currentAccount.value!!).getOrThrow().first()
-            val rateFrom =
-                getCurrencyUseCase(account.currencyId).getOrThrow().first().rateToDollar
-            val rateTo = getCurrencyUseCase(account.currencyId).getOrThrow().first().rateToDollar
+            val rateFrom = getCurrencyUseCase(account.currencyId).getOrThrow().first().rateToDollar
+            val rateTo = getCurrencyUseCase(value).getOrThrow().first().rateToDollar
             for (op in operations) {
                 op.amount = op.amount / rateFrom * rateTo
             }
