@@ -1,41 +1,48 @@
 package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
 import androidx.lifecycle.*
+import com.gmail.vlaskorobogatov.domain.interactor.settings.GetLocaleUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.settings.SetLocaleUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.settings.SetThemeUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountUseCase
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import com.gmail.vlaskorobogatov.domain.repostory.CurrencyRepository
-import com.gmail.vlaskorobogatov.domain.repostory.ExpensePreference
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject internal constructor(
-    private val preferences: ExpensePreference,
     private val accountRepository: AccountRepository,
     private val currencyRepository: CurrencyRepository,
     private val operationRepository: OperationRepository,
-) : ViewModel() {
-    private var currentAccount = MutableLiveData(preferences.getAccountName())
+    private val setLocaleUseCase: SetLocaleUseCase,
+    private val getLocaleUseCase: GetLocaleUseCase,
+    private val setThemeUseCase: SetThemeUseCase,
+    private val getThemeUseCase: GetThemeUseCase,
+    getAccountUseCase: GetAccountUseCase,
+
+    ) : ViewModel() {
+    private var currentAccount = MutableLiveData(getAccountUseCase(Unit).getOrThrow())
 
     fun readTheme(): Boolean {
-        return preferences.readTheme()
+        return getThemeUseCase(Unit).getOrThrow()
     }
 
     fun writeTheme(value: Boolean) {
-        preferences.writeTheme(value)
+        setThemeUseCase(value)
     }
 
     fun readLocale(): String {
-        return preferences.readLocale()
+        return getLocaleUseCase(Unit).getOrThrow()
     }
 
     fun writeLocale(value: String) {
-        preferences.writeLocale(value)
+        setLocaleUseCase(value)
     }
 
     fun readCurrency(): Flow<String> {
@@ -47,7 +54,8 @@ class SettingsViewModel @Inject internal constructor(
             currencyRepository.updateCurrencies()
         }
 
-        return currencyRepository.getCurrencies().map { x -> x.map { y -> y.currencyId } }.asLiveData()
+        return currencyRepository.getCurrencies().map { x -> x.map { y -> y.currencyId } }
+            .asLiveData()
     }
 
     suspend fun changeCurrency(value: String) {

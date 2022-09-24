@@ -2,6 +2,9 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
 import androidx.lifecycle.*
 import com.gmail.vlaskorobogatov.domain.Operation
+import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.account.SetAccountUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import com.gmail.vlaskorobogatov.domain.repostory.ExpensePreference
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
@@ -17,13 +20,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeFragmentViewModel @Inject internal constructor(
     private val operationsRepository: OperationRepository,
-    val preferences: ExpensePreference,
+    val getThemeUseCase: GetThemeUseCase,
+    val setAccountUseCase: SetAccountUseCase,
+    getAccountUseCase: GetAccountUseCase,
     accountRepository: AccountRepository
 ) : ViewModel() {
-    val account = MutableLiveData(preferences.getAccountName())
+    val account = MutableLiveData(getAccountUseCase(Unit).getOrThrow())
     val period = MutableLiveData(Period.ofYears(5))
 
-    fun readTheme(): Boolean = preferences.readTheme()
+    fun readTheme() = getThemeUseCase(Unit).getOrThrow()
 
     val accounts = accountRepository.getAccounts().asLiveData()
 
@@ -33,7 +38,7 @@ class HomeFragmentViewModel @Inject internal constructor(
 
     init {
         account.observeForever { newAccount ->
-            preferences.setAccountName(newAccount)
+            setAccountUseCase(newAccount)
         }
     }
 

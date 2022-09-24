@@ -79,7 +79,7 @@ class HomeFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        viewModel.changeAccount(viewModel.preferences.getAccountName())
+        viewModel.changeAccount(viewModel.getAccountName()!!)
     }
 
     private fun subscribeUi(adapter: OperationsAdapter) {

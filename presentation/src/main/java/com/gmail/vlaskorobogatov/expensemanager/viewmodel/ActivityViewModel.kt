@@ -1,25 +1,30 @@
 package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.gmail.vlaskorobogatov.model.repository.ExpensePreferenceImpl
+import com.gmail.vlaskorobogatov.domain.interactor.settings.GetLocaleUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ActivityViewModel @Inject internal constructor(val preferences: ExpensePreferenceImpl):ViewModel() {
+class ActivityViewModel @Inject internal constructor(
+    val getLocaleUseCase: GetLocaleUseCase,
+    val getThemeUseCase: GetThemeUseCase
+) : ViewModel() {
 
     fun readLocale(): Locale {
-        println(preferences.readLocale())
-        return when(preferences.readLocale()) {
+        println(getLocaleUseCase(Unit).getOrThrow())
+        return when (getLocaleUseCase(Unit).getOrThrow()) {
             "Russian" -> Locale("ru")
             "English" -> Locale("en")
-            else -> {Locale("en")}
+            else -> {
+                Locale("en")
+            }
         }
-
     }
 
     fun readTheme(): Boolean {
-        return preferences.readTheme()
+        return getThemeUseCase(Unit).getOrThrow()
     }
 }

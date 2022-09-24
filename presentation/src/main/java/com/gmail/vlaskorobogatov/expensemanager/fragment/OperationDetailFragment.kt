@@ -18,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class OperationDetailFragment : Fragment() {
