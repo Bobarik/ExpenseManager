@@ -1,12 +1,14 @@
 package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
 import androidx.lifecycle.*
+import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountCurrencyUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.settings.GetLocaleUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.settings.SetLocaleUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.settings.SetThemeUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountNameUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountUseCase
-import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
+import com.gmail.vlaskorobogatov.domain.interactor.account.UpdateAccountUseCase
 import com.gmail.vlaskorobogatov.domain.repostory.CurrencyRepository
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,17 +19,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject internal constructor(
-    private val accountRepository: AccountRepository,
     private val currencyRepository: CurrencyRepository,
     private val operationRepository: OperationRepository,
     private val setLocaleUseCase: SetLocaleUseCase,
     private val getLocaleUseCase: GetLocaleUseCase,
     private val setThemeUseCase: SetThemeUseCase,
     private val getThemeUseCase: GetThemeUseCase,
-    getAccountUseCase: GetAccountUseCase,
-
-    ) : ViewModel() {
-    private var currentAccount = MutableLiveData(getAccountUseCase(Unit).getOrThrow())
+    private val getAccountUseCase: GetAccountUseCase,
+    private val getAccountCurrencyUseCase: GetAccountCurrencyUseCase,
+    private val updateAccountUseCase: UpdateAccountUseCase,
+    getAccountNameUseCase: GetAccountNameUseCase,
+) : ViewModel() {
+    private var currentAccount = MutableLiveData(getAccountNameUseCase(Unit).getOrThrow())
 
     fun readTheme(): Boolean {
         return getThemeUseCase(Unit).getOrThrow()
@@ -46,7 +49,7 @@ class SettingsViewModel @Inject internal constructor(
     }
 
     fun readCurrency(): Flow<String> {
-        return accountRepository.getAccount(currentAccount.value!!).map { x -> x.currencyId }
+        return getAccountCurrencyUseCase(currentAccount.value!!).getOrThrow()
     }
 
     fun getCurrencies(): LiveData<List<String>> {
@@ -60,7 +63,7 @@ class SettingsViewModel @Inject internal constructor(
 
     suspend fun changeCurrency(value: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val account = accountRepository.getAccount(currentAccount.value!!).first()
+            val account = getAccountUseCase(currentAccount.value!!).getOrThrow().first()
             val operations =
                 operationRepository.getOperationsByAccount(currentAccount.value!!).first()
             val rateFrom =
@@ -72,7 +75,7 @@ class SettingsViewModel @Inject internal constructor(
 
             account.currencyId = value
             operationRepository.update(operations)
-            accountRepository.updateAccount(listOf(account))
+            updateAccountUseCase(account)
         }
     }
 }

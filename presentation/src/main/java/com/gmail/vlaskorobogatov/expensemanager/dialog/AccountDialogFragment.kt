@@ -53,7 +53,7 @@ class AccountDialogFragment : BottomSheetDialogFragment() {
 
     private fun subscribeUi(adapter: AccountAdapter) {
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
-            adapter.setAccountList(accounts)
+            adapter.submitList(accounts)
         }
     }
 }

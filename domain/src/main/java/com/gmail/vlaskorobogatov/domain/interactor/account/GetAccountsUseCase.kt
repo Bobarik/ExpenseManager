@@ -6,12 +6,12 @@ import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAccountUseCase @Inject constructor(
+class GetAccountsUseCase @Inject constructor(
     private val accountRepository: AccountRepository
 ) :
-    UseCase<String, Flow<Account>>() {
+    UseCase<Unit, Flow<List<Account>>>() {
 
-    override fun execute(parameters: String): Flow<Account> {
-        return accountRepository.getAccount(parameters)
+    override fun execute(parameters: Unit): Flow<List<Account>> {
+        return accountRepository.getAccounts()
     }
 }

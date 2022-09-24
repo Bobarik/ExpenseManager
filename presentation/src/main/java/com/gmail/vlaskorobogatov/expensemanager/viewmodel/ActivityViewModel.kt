@@ -2,15 +2,13 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.gmail.vlaskorobogatov.domain.interactor.settings.GetLocaleUseCase
-import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel @Inject internal constructor(
-    val getLocaleUseCase: GetLocaleUseCase,
-    val getThemeUseCase: GetThemeUseCase
+    val getLocaleUseCase: GetLocaleUseCase
 ) : ViewModel() {
 
     fun readLocale(): Locale {
@@ -22,9 +20,5 @@ class ActivityViewModel @Inject internal constructor(
                 Locale("en")
             }
         }
-    }
-
-    fun readTheme(): Boolean {
-        return getThemeUseCase(Unit).getOrThrow()
     }
 }

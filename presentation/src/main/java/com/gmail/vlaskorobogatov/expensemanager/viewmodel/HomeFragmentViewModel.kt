@@ -2,11 +2,11 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 
 import androidx.lifecycle.*
 import com.gmail.vlaskorobogatov.domain.Operation
-import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountNameUseCase
+import com.gmail.vlaskorobogatov.domain.interactor.account.GetAccountsUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.account.SetAccountUseCase
 import com.gmail.vlaskorobogatov.domain.interactor.settings.GetThemeUseCase
 import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
-import com.gmail.vlaskorobogatov.domain.repostory.ExpensePreference
 import com.gmail.vlaskorobogatov.domain.repostory.OperationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,15 +22,15 @@ class HomeFragmentViewModel @Inject internal constructor(
     private val operationsRepository: OperationRepository,
     val getThemeUseCase: GetThemeUseCase,
     val setAccountUseCase: SetAccountUseCase,
-    getAccountUseCase: GetAccountUseCase,
-    accountRepository: AccountRepository
+    getAccountNameUseCase: GetAccountNameUseCase,
+    getAccountsUseCase: GetAccountsUseCase
 ) : ViewModel() {
-    val account = MutableLiveData(getAccountUseCase(Unit).getOrThrow())
+    val account = MutableLiveData(getAccountNameUseCase(Unit).getOrThrow())
     val period = MutableLiveData(Period.ofYears(5))
 
     fun readTheme() = getThemeUseCase(Unit).getOrThrow()
 
-    val accounts = accountRepository.getAccounts().asLiveData()
+    val accounts = getAccountsUseCase(Unit).getOrThrow().asLiveData()
 
     fun changeAccount(account: String) {
         this.account.value = account

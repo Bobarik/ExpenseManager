@@ -3,7 +3,7 @@ package com.gmail.vlaskorobogatov.expensemanager.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.vlaskorobogatov.domain.Account
-import com.gmail.vlaskorobogatov.domain.repostory.AccountRepository
+import com.gmail.vlaskorobogatov.domain.interactor.account.InsertAccountUseCase
 import com.gmail.vlaskorobogatov.domain.repostory.CurrencyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountListViewModel @Inject internal constructor(
-    private val accountRepository: AccountRepository,
-    private val currencyRepository: CurrencyRepository
+    private val currencyRepository: CurrencyRepository,
+    private val insertAccountUseCase: InsertAccountUseCase
 ) : ViewModel() {
 
     fun getCurrencies(): Flow<List<String>> {
@@ -24,7 +24,7 @@ class AccountListViewModel @Inject internal constructor(
 
     fun insertAccount(account: Account) {
         viewModelScope.launch(Dispatchers.IO) {
-            accountRepository.insertAccount(listOf(account))
+            insertAccountUseCase(account)
         }
     }
 }
